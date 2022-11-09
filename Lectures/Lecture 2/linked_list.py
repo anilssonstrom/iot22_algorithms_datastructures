@@ -59,51 +59,62 @@ class LinkedList:
             self.tail = new_node  # Move "tail" pointer to our new node
 
     def prepend(self, data):
-        pass
         # 1. Skapa en ny nod
-        # (1.5. Är listan tom? Sätt head och tail till den nya noden. Annars fortsätt.)
+        new_node = Node(data)
+
         # 2. Sätt den nya nodens "next" till self.head
+        new_node.next = self.head
+
         # 3. Flytta self.head till den nya noden
+        self.head = new_node
+
+        # 4. Om listan är tom: Uppdatera tail
+        if self.tail is None:
+            self.tail = new_node
 
     def insert(self, data, after_data):
-        pass
         # 1. Skapa en ny nod
-        # (1.5. Är listan tom? Sätt head och tail till den nya noden. Annars fortsätt.)
+        new_node = Node(data)
+
+        # Är listan tom?
+        if self.head is None:
+            raise IndexError("can't insert into an empty list")
+
         # 2. Hitta rätt ställe i listan
+        current = self.head
+        while current.data != after_data:
+            current = current.next
+            if current is None:
+                raise IndexError(f"{after_data=} not found in list")
+
         # 3. Sätt den nya nodens "next" till nästa nod
+        new_node.next = current.next
         # 4. Sätt nuvarande nodens "next" till nya noden
+        current.next = new_node
+
+    def remove_first_node(self):
+        pass
+        # (1. Om listan är tom: Ge IndexError)
+        # 2. Skapa en tillfällig pekare "current"
+        # 3. Flytta "self.head" till nästa nod
+
+    def remove_last_node(self):
+        pass
+        # (1. Om listan är tom: Ge IndexError)
+        # 2. Skapa två tillfälliga pekare "current" och "previous"
+        # 3. Stega tills "current" är sista noden (current.next är None)
+        # 4. Sätt previous.next = None
 
 
 if __name__ == '__main__':
     llist = LinkedList()
-    print(llist)
-
+    llist.prepend(25)
     llist.append(1)
-    print(llist)
-
     llist.append(2)
-    print(llist)
-
     llist.append(3)
+    llist.append(4)
+    llist.prepend(99)
     print(llist)
 
-    node = llist.head
-    # Börja på första noden och gå till next, tills vi kommer till slutet
-    while node is not None:
-        # Skriva ut vad noden innehåller
-        print(node.data)
-
-        # Gå vidare till nästa nod
-        node = node.next
-
-    print("LList length: " + str(llist.count()))
-    assert llist.count() == 3
-
-    print("LList sum: " + str(llist.sum()))
-    assert llist.sum() == 6
-
-    print("Append(4)")
-    llist.append(4)
-    print("LList length: " + str(llist.count()))
-    print("LList sum: " + str(llist.sum()))
+    llist.insert(data=63, after_data=25)
     print(llist)
