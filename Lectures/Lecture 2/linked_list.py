@@ -12,31 +12,54 @@ class LinkedList:
     def __init__(self):
         self.head = None
         self.tail = None
+        self.size = 0  # Håller koll på listans längd. Måste uppdateras om vi lägger till och tar bort noder.
 
     def __str__(self):
+        """ __str__ Gör en sträng av vår instans: str(my_list) """
         node = self.head
         my_str = ""
 
         while node is not None:
+            # För varje nod i listan, lägg på värdet och en pil
             my_str += f"{node.data} -> "
             node = node.next
 
-        my_str += "None"
+        my_str += "None"  # Avsluta med "None"
         return my_str
 
+    def __iter__(self):
+        """ __iter__ låter oss använda for-loopar: for item in my_list """
+        current = self.head
+
+        while current is not None:
+            yield current.data  # Yield ger tilbaka värdet, och pausar
+            current = current.next
+
+    def __contains__(self, data):
+        """ __contains__ låter oss använda 'value in my_list' precis som andra listor """
+        current = self.head
+
+        while current is not None:
+            # Gå igenom listan nod för nod
+            if current.data == data:
+                # Har vi hittat datan?
+                return True
+
+            current = current.next
+
+        # Har vi kommit ned hit så fanns inte datan i listan
+        return False
+
+    def __len__(self):
+        """ __len__ låter oss använda len(my_list) """
+        return self.size
+
     def count(self):
-        node = self.head
-        n = 0
-
-        while node is not None:
-            # Lägga på 1 på vår räknare
-            n += 1
-            # Gå vidare till nästa node
-            node = node.next
-
-        return n
+        """ Count the number of nodes in the list. """
+        len(self)  # Anropa len() på listan
 
     def sum(self):
+        """ Return the sum of all data in the list. Assumes data is addable (a + b). """
         node = self.head
         s = 0
 
@@ -47,7 +70,9 @@ class LinkedList:
         return s
 
     def append(self, data):
-        new_node = Node(data)
+        """ Add the data to a node at the end of the list """
+
+        new_node = Node(data)  # Create a new node
 
         if self.head is None or self.tail is None:
             # List was empty
@@ -55,10 +80,13 @@ class LinkedList:
             self.tail = new_node
         else:
             # List is not empty, just add the node to the end
-            self.tail.next = new_node  # Add new node after existing tail
+            self.tail.next = new_node  # Add new node after the last node (the tail)
             self.tail = new_node  # Move "tail" pointer to our new node
 
+        self.size += 1
+
     def prepend(self, data):
+        """ Add the data to a node at the start of the list """
         # 1. Skapa en ny nod
         new_node = Node(data)
 
@@ -72,7 +100,10 @@ class LinkedList:
         if self.tail is None:
             self.tail = new_node
 
+        self.size += 1
+
     def insert(self, data, after_data):
+        """ Insert data in a new node, placed after the node containing 'after_data' """
         # 1. Skapa en ny nod
         new_node = Node(data)
 
@@ -92,23 +123,25 @@ class LinkedList:
         # 4. Sätt nuvarande nodens "next" till nya noden
         current.next = new_node
 
+        self.size += 1
+
     def remove_first_node(self):
+        """ Remove the first node from the list """
+
         # (1. Om listan är tom: Ge IndexError)
         if self.head is None:
             raise IndexError("list is empty")
 
+        # Flytta "self.head" till nästa nod
         self.head = self.head.next
 
+        # Om vi precis tog bort sista elementet så ska vi uppdatera tail också
         if self.head is None:
             self.tail = None
 
-        # 2. Skapa en tillfällig pekare "current"
-        # current = self.head
-
-        # 3. Flytta "self.head" till nästa nod
-        # self.head = current.next
-
     def remove_last_node(self):
+        """ Remove the last node from the list """
+
         # (1. Om listan är tom: Ge IndexError)
         if self.head is None:
             raise IndexError("list is empty")
@@ -121,6 +154,7 @@ class LinkedList:
         while current is not None:
             if current.next is None:
                 if current == self.head:
+                    # Sista och första noden var samma. Dvs listan hade bara en nod. Töm listan.
                     self.head = None
                     self.tail = None
                 else:
@@ -131,7 +165,11 @@ class LinkedList:
             previous = current
             current = current.next
 
+        self.size -= 1
+
     def remove_node(self, data):
+        """ Remove the node containing 'data' """
+
         if self.head is None:
             raise IndexError("list is empty")
 
@@ -158,6 +196,7 @@ class LinkedList:
                     self.tail = previous
 
                 # Vi har tagit bort första matchande noden. Avsluta metoden.
+                self.size -= 1
                 return
 
             # Vi har inte hittat det vi var ute efter: Flytta båda pekarna
@@ -195,3 +234,16 @@ if __name__ == '__main__':
 
     llist.remove_node(25)
     print(llist)
+
+    print(len(llist))  # Se __len__
+
+    # På samma sätt som vi kan skriva:
+    print("H" in "Hello")
+    # Vill vi också kunna skriva:
+    print(25 in llist)  # Se __contains__ i toppen av filen
+    print("Hej" in llist)
+
+    print("Skriv ut alla värden i listan:")
+    # För att använda for-loop måste vi implementera __iter__
+    for value in llist:
+        print(value)
