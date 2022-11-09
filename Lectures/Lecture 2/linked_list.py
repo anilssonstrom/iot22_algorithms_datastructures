@@ -58,6 +58,21 @@ class LinkedList:
             self.tail.next = new_node  # Add new node after existing tail
             self.tail = new_node  # Move "tail" pointer to our new node
 
+    def prepend(self, data):
+        pass
+        # 1. Skapa en ny nod
+        # (1.5. Är listan tom? Sätt head och tail till den nya noden. Annars fortsätt.)
+        # 2. Sätt den nya nodens "next" till self.head
+        # 3. Flytta self.head till den nya noden
+
+    def insert(self, data, after_data):
+        pass
+        # 1. Skapa en ny nod
+        # (1.5. Är listan tom? Sätt head och tail till den nya noden. Annars fortsätt.)
+        # 2. Hitta rätt ställe i listan
+        # 3. Sätt den nya nodens "next" till nästa nod
+        # 4. Sätt nuvarande nodens "next" till nya noden
+
 
 if __name__ == '__main__':
     llist = LinkedList()
