@@ -135,19 +135,32 @@ class LinkedList:
         if self.head is None:
             raise IndexError("list is empty")
 
+        # Börja med att stega från listans start
         current = self.head
         previous = self.head
 
         while current is not None:
+            # Om detta är noden vi letar efter...
             if current.data == data:
+                # Om vi är i starten av listan
                 if current == self.head:
+                    # Flytta head ett steg åt höger
                     self.head = current.next
                 else:
+                    # Vi är inte i starten av listan: Flytta förra elementets next ett steg åt höger
                     previous.next = current.next
 
-                if current == self.tail:
+                # Tog vi bort det sista elementet?
+                if self.head is None:
+                    self.tail = None
+                elif current == self.tail:
+                    # Flytta tail ett steg åt vänster
                     self.tail = previous
 
+                # Vi har tagit bort första matchande noden. Avsluta metoden.
+                return
+
+            # Vi har inte hittat det vi var ute efter: Flytta båda pekarna
             previous = current
             current = current.next
 
@@ -173,6 +186,11 @@ if __name__ == '__main__':
     llist.remove_last_node()
     llist.remove_last_node()
     llist.remove_last_node()
+    print(llist)
+
+    llist.append(25)
+    llist.append(25)
+    llist.append(25)
     print(llist)
 
     llist.remove_node(25)
