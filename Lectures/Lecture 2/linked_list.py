@@ -93,17 +93,63 @@ class LinkedList:
         current.next = new_node
 
     def remove_first_node(self):
-        pass
         # (1. Om listan är tom: Ge IndexError)
+        if self.head is None:
+            raise IndexError("list is empty")
+
+        self.head = self.head.next
+
+        if self.head is None:
+            self.tail = None
+
         # 2. Skapa en tillfällig pekare "current"
+        # current = self.head
+
         # 3. Flytta "self.head" till nästa nod
+        # self.head = current.next
 
     def remove_last_node(self):
-        pass
         # (1. Om listan är tom: Ge IndexError)
+        if self.head is None:
+            raise IndexError("list is empty")
+
         # 2. Skapa två tillfälliga pekare "current" och "previous"
+        current = self.head
+        previous = self.head
+
         # 3. Stega tills "current" är sista noden (current.next är None)
-        # 4. Sätt previous.next = None
+        while current is not None:
+            if current.next is None:
+                if current == self.head:
+                    self.head = None
+                    self.tail = None
+                else:
+                    # 4. Sätt previous.next = None
+                    previous.next = None
+                    self.tail = previous
+
+            previous = current
+            current = current.next
+
+    def remove_node(self, data):
+        if self.head is None:
+            raise IndexError("list is empty")
+
+        current = self.head
+        previous = self.head
+
+        while current is not None:
+            if current.data == data:
+                if current == self.head:
+                    self.head = current.next
+                else:
+                    previous.next = current.next
+
+                if current == self.tail:
+                    self.tail = previous
+
+            previous = current
+            current = current.next
 
 
 if __name__ == '__main__':
@@ -117,4 +163,17 @@ if __name__ == '__main__':
     print(llist)
 
     llist.insert(data=63, after_data=25)
+    print(llist)
+
+    llist.remove_first_node()
+    print(llist)
+
+    llist.remove_last_node()
+    llist.remove_last_node()
+    llist.remove_last_node()
+    llist.remove_last_node()
+    llist.remove_last_node()
+    print(llist)
+
+    llist.remove_node(25)
     print(llist)
