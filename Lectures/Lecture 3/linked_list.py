@@ -148,7 +148,7 @@ class LinkedList:
 
         # 2. Skapa två tillfälliga pekare "current" och "previous"
         current = self.head
-        previous = self.head
+        temp_previous = self.head
 
         # 3. Stega tills "current" är sista noden (current.next är None)
         while current is not None:
@@ -159,10 +159,10 @@ class LinkedList:
                     self.tail = None
                 else:
                     # 4. Sätt previous.next = None
-                    previous.next = None
-                    self.tail = previous
+                    temp_previous.next = None
+                    self.tail = temp_previous
 
-            previous = current
+            temp_previous = current
             current = current.next
 
         self.size -= 1
@@ -204,46 +204,3 @@ class LinkedList:
             current = current.next
 
 
-if __name__ == '__main__':
-    llist = LinkedList()
-    llist.prepend(25)
-    llist.append(1)
-    llist.append(2)
-    llist.append(3)
-    llist.append(4)
-    llist.prepend(99)
-    print(llist)
-
-    llist.insert(data=63, after_data=25)
-    print(llist)
-
-    llist.remove_first_node()
-    print(llist)
-
-    llist.remove_last_node()
-    llist.remove_last_node()
-    llist.remove_last_node()
-    llist.remove_last_node()
-    llist.remove_last_node()
-    print(llist)
-
-    llist.append(25)
-    llist.append(25)
-    llist.append(25)
-    print(llist)
-
-    llist.remove_node(25)
-    print(llist)
-
-    print(len(llist))  # Se __len__
-
-    # På samma sätt som vi kan skriva:
-    print("H" in "Hello")
-    # Vill vi också kunna skriva:
-    print(25 in llist)  # Se __contains__ i toppen av filen
-    print("Hej" in llist)
-
-    print("Skriv ut alla värden i listan:")
-    # För att använda for-loop måste vi implementera __iter__
-    for value in llist:
-        print(value)
