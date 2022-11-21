@@ -1,3 +1,5 @@
+import random
+
 
 # Fakultet (factorial)
 
@@ -29,14 +31,49 @@ def power(n, p):
         return n * power(n, p-1)
 
 
+def tail_factorial(product, num):
+    """ Räkna ut n-fakultet (n!) """
+    if num == 1:
+        return product
+    else:
+        # Räkna ut multiplikation
+        new_product = product * num
+        return tail_factorial(new_product, num-1)
+
+
+def infinite_recursions(nuke, count):
+    if nuke == "Russia":
+        return print("The world was saved by Koleshnikov")
+    else:
+        print(f"Nuke goes off in: {count}")
+        if count == 1:
+            if random.randint(1, 20) > 19:
+                nuke = "Russia"
+        return infinite_recursions(nuke, count-1)
+
+
+def recurse(n):
+    print(n)
+    recurse(n+1)
+
+
 if __name__ == '__main__':
+    # recurse()
     # print(factorial(10))  # 10 * 9 * 8 * ... * 2 * 1
     # print(sum_list([5]))
     # print(sum_list([2, 5]))
     # print(sum_list([5, 4, 2, 7, 1]))
     # print(power(4, 3))  # 4 * 4 * 4
 
-    print(power(4, 0))  # == 1
-    print(power(4, 1))  # == 4  ( 4 * 1 )
-    print(power(4, 2))  # power(4, 2) * power(4, 1) * power(4, 0)
-    print(power(4, 6))  # 4096
+    # print(power(4, 0))  # == 1
+    # print(power(4, 1))  # == 4  ( 4 * 1 )
+    # print(power(4, 2))  # power(4, 2) * power(4, 1) * power(4, 0)
+    # print(power(4, 6))  # 4096
+
+    # print(tail_factorial(product=1, num=5))  # 120
+    # infinite_recursions("Sweden", 995)
+
+    import sys
+    sys.setrecursionlimit(1500)
+    print(sys.getrecursionlimit())
+    recurse(1)
