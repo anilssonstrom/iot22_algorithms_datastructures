@@ -61,6 +61,8 @@ def test_isempty():
     assert s.isempty()
     s.push(1)
     assert not s.isempty()
+    s.pop()
+    assert s.isempty()
 
 
 if __name__ == '__main__':
